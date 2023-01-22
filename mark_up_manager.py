@@ -55,17 +55,17 @@ weight_1000 = types.InlineKeyboardButton(text="+1000", callback_data=btn1000)
 weight_own = types.InlineKeyboardButton(text="Cвій варіант", callback_data=btnown)
 weight_choice_inline.add(weight_50, weight_100, weight_200, weight_500, weight_1000, weight_own)
 
-#Inline name board
-ask_name_board = types.InlineKeyboardMarkup()
-yes_name_button = types.InlineKeyboardButton(text="Так", callback_data=name_yes_callback)
-no_name_button = types.InlineKeyboardButton(text="Ні", callback_data=name_no_callback)
-ask_name_board.add(yes_name_button, no_name_button)
-
-#Inline phone board
-ask_phone_board = types.InlineKeyboardMarkup()
-yes_phone_button = types.InlineKeyboardButton(text="Так", callback_data=phone_yes_callback)
-no_phone_button = types.InlineKeyboardButton(text="Ні", callback_data=phone_no_callback)
-ask_phone_board.add(yes_phone_button, no_phone_button)
+# #Inline name board
+# ask_name_board = types.InlineKeyboardMarkup()
+# yes_name_button = types.InlineKeyboardButton(text="Так", callback_data=name_yes_callback)
+# no_name_button = types.InlineKeyboardButton(text="Ні", callback_data=name_no_callback)
+# ask_name_board.add(yes_name_button, no_name_button)
+#
+# #Inline phone board
+# ask_phone_board = types.InlineKeyboardMarkup()
+# yes_phone_button = types.InlineKeyboardButton(text="Так", callback_data=phone_yes_callback)
+# no_phone_button = types.InlineKeyboardButton(text="Ні", callback_data=phone_no_callback)
+# ask_phone_board.add(yes_phone_button, no_phone_button)
 
 #Inline post info board
 ask_post_info_board = types.InlineKeyboardMarkup()

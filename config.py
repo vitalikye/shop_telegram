@@ -39,11 +39,11 @@ btn500 = "500"
 btn1000 = "1000"
 btnown = "_ownweight"
 
-name_yes_callback = "name_yes"
-name_no_callback = "name_no"
-
-phone_yes_callback = "phone_yes"
-phone_no_callback = "phone_no"
+# name_yes_callback = "name_yes"
+# name_no_callback = "name_no"
+#
+# phone_yes_callback = "phone_yes"
+# phone_no_callback = "phone_no"
 
 post_info_yes_callback = "post_info_yes"
 post_info_no_callback = "post_info_no"

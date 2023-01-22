@@ -91,18 +91,6 @@ def inline_handler(call):
         msg = bot.send_message(call.message.chat.id,
                                "Напиши скільки ти б хотів придбрати м'яска у грамах (знаками '0-9')", reply_markup=back_board)
         bot.register_next_step_handler(msg, own_weight_handler)
-    elif call.data == name_yes_callback:
-        msg = bot.send_message(call.message.chat.id, "Тепер напиши, будь ласка, свій номер телефону.")
-        bot.register_next_step_handler(msg, register_phone)
-    elif call.data == name_no_callback:
-        msg = bot.send_message(call.message.chat.id, "Ок, напиши вірний варіант своїх ПІБ")
-        bot.register_next_step_handler(msg, register_name)
-    elif call.data == phone_yes_callback:
-        msg = bot.send_message(call.message.chat.id, post_info_reask_text)
-        bot.register_next_step_handler(msg, register_post_info)
-    elif call.data == phone_no_callback:
-        msg = bot.send_message(call.message.chat.id, "Ок, вкажи вірний варіант номеру телефону")
-        bot.register_next_step_handler(msg, register_phone)
     elif call.data == post_info_yes_callback:
         bot.send_message(call.message.chat.id, "Дякую, Ось твоє замовлення.")
         user_order_info = show_all_order_info(user_id=call.from_user.id)
@@ -110,8 +98,8 @@ def inline_handler(call):
         msg = bot.send_message(call.message.chat.id, "Якщо вся інформація вірна, можеш обрати спосіб оплати", reply_markup=payment_board)
         bot.register_next_step_handler(msg, payment_handler)
     elif call.data == post_info_no_callback:
-        msg = bot.send_message(call.message.chat.id, "Ок, надай вірну  інформації про відділення")
-        bot.register_next_step_handler(msg, register_post_info)
+        msg = bot.send_message(call.message.chat.id, "Зрозумів, давай почнемо з початку, напиши свої ПІБ")
+        bot.register_next_step_handler(msg, register_name)
     else:
         weight = int(call.data)
         add_to_cart(id, weight, call.from_user.id)
@@ -171,19 +159,19 @@ def remove_from_cart_handler(message):
 def register_name(message):
     global name
     name = message.text
-    bot.send_message(message.chat.id, f"<b>{name}</b> Чи вірно я записав твої ПІБ? Натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити\n ⬇️⬇️⬇️⬇️⬇️", reply_markup=ask_name_board, parse_mode='html')
+    msg = bot.send_message(message.chat.id, "Дякую, я записав твоє ім'я. Тепер будь ласка вкажи свій <b>номер телефону</b>", parse_mode='html')
+    bot.register_next_step_handler(msg, register_phone)
 
 def register_phone(message):
     global phone_number
     phone_number = message.text
-    bot.send_message(message.chat.id,
-                     f"<b>{phone_number}</b> Чи вірно я записав твій номер телефону? Натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити\n ⬇️⬇️⬇️⬇️⬇️",
-                     reply_markup=ask_phone_board, parse_mode='html')
+    msg = bot.send_message(message.chat.id,"Дякую, Я записав твій номер телефону. Тепер будь ласка відправ інформацію про відправку: <b>Місто, Область, Номер Нової пошти (наприклад: Київ, Київська область, Відділення №121)</b>", parse_mode='html')
+    bot.register_next_step_handler(msg, register_post_info)
 
 def register_post_info(message):
     global post_info
     post_info = message.text
-    bot.send_message(message.chat.id, f"<b>{post_info}</b> Чи вірно я записав інформацію? Натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити\n ⬇️⬇️⬇️⬇️⬇️",
+    bot.send_message(message.chat.id, f"Відмінно! Подивись,чи вірно я записав всю інформацію:\n ПІБ - <b>{name}</b> \n Номер телефону - <b>{phone_number}</b> \n Інформація про відправку - <b>{post_info}</b> Чи вірно я записав інформацію? Натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити і надіслати нам вірну інформацію\n ⬇️⬇️⬇️⬇️⬇️",
                      reply_markup=ask_post_info_board, parse_mode='html')
 
 #function that show user whole info about his order
