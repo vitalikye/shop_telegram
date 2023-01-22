@@ -28,11 +28,11 @@ def main_handler(message):
     elif message.text == back_btn:
         bot.send_message(message.chat.id, 'Обери в меню потрібну опцію', reply_markup=main_board)
     elif message.text == info_meat_btn:
-        bot.send_message(message.chat.id, product_info_text, reply_markup=subinfo_board)
+        bot.send_message(message.chat.id, product_info_text, reply_markup=subinfo_board, parse_mode='html')
     elif message.text == info_deal_btn:
-        bot.send_message(message.chat.id, maker_info_text, reply_markup=subinfo_board)
+        bot.send_message(message.chat.id, deal_info_text, reply_markup=subinfo_board, parse_mode='html')
     elif message.text == info_maker_btn:
-        bot.send_message(message.chat.id, "Ім'я виробника занадто відоме, щоб його казати. Скажу лише одне, він чемпіон кавуна і двічі учасник гала конццерту Ліга Сміху", reply_markup=subinfo_board)
+        bot.send_message(message.chat.id, maker_info_text, reply_markup=subinfo_board, parse_mode='html')
     elif message.text == cart_remove_btn:
         msg = bot.send_message(message.chat.id, "Обери, щоб ти хотів видалити із кошика", reply_markup=cart_remove_board)
         bot.register_next_step_handler(msg, remove_from_cart_handler)
@@ -76,7 +76,7 @@ def send_product_info_handler(message, id):
     price = product_info[1]
     description = product_info[2]
     print(name, price, description)
-    caption = f"М'яско {name}\n----------------\n Ціна - {price} грн\n опис: {description}"
+    caption = f"М'яско {name}\n----------------\n Ціна - {price} (ціна за 100 грам)\n опис: {description}"
     file_url = f"media/id{id}.jpg"
     try:
         bot.send_photo(message.chat.id, open(file_url, 'rb'), caption=caption, reply_markup=weight_choice_inline)
@@ -171,7 +171,7 @@ def register_phone(message):
 def register_post_info(message):
     global post_info
     post_info = message.text
-    bot.send_message(message.chat.id, f"Відмінно! Подивись,чи вірно я записав всю інформацію:\n ПІБ - <b>{name}</b> \n Номер телефону - <b>{phone_number}</b> \n Інформація про відправку - <b>{post_info}</b> Чи вірно я записав інформацію? Натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити і надіслати нам вірну інформацію\n ⬇️⬇️⬇️⬇️⬇️",
+    bot.send_message(message.chat.id, f"Відмінно! Подивись,чи вірно я записав всю інформацію:\n ПІБ - <b>{name}</b> \nНомер телефону - <b>{phone_number}</b> \nІнформація про відправку - <b>{post_info}</b> \n Якщо все вірно натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити і надіслати нам вірну інформацію\n ⬇️⬇️⬇️⬇️⬇️⬇️⬇️",
                      reply_markup=ask_post_info_board, parse_mode='html')
 
 #function that show user whole info about his order
@@ -198,11 +198,11 @@ def payment_handler(message):
     if message.text == prepay_btn:
         bot.send_message(message.chat.id,f"""тут будуть реквізити карти, а може і qr. 
         Сума до сплати <b>{cart_total_price} грн. </b>\n <b>ВАЖЛИВО:Вкажи номер замовлення в призначення платежу</b>\n 
-        номер замовлення - <b>№{order_number}</b>""", parse_mode='html',reply_markup=done_board)
+        Твій номер замовлення - <b>№{order_number}</b>""", parse_mode='html',reply_markup=done_board)
     elif message.text == not_prepay_btn:
         bot.send_message(message.chat.id, f"""тут будуть реквізити карти, а може і qr. 
-                Необхідно внести передплату у розмірі 60 грн\n <b>ВАЖЛИВО:Вкажи номер замовлення в призначення платежу</b>\n 
-                номер замовлення - <b>№{order_number}</b>""", parse_mode='html', reply_markup=done_board)
+                Необхідно внести передплату у розмірі 60 грн\n <b>ВАЖЛИВО:Вкажи номер замовлення в призначення платежу</b>\n
+                Твій номер замовлення - <b>№{order_number}</b>""", parse_mode='html', reply_markup=done_board)
     elif message.text == back_btn:
         main_handler(message=message)
 

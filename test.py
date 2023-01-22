@@ -6,3 +6,5 @@ res = json.loads(string)
 res.pop('5', None)
 res.pop('2')
 
+pop = 1.5
+

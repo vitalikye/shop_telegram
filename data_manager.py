@@ -2,10 +2,10 @@ import sqlite3
 from config import *
 import json
 from datetime import datetime
-#
+
 # db = sqlite3.connect(DATA_BASE_MAIN)
 # cursor = db.cursor()
-# cursor.execute(""" DELETE FROM orders WHERE user_id=57831246""")
+# cursor.execute("""UPDATE products SET price=140 where id>1""")
 # db.commit()
 # db.close()
 
@@ -74,7 +74,7 @@ def get_cart_info(user_id):
             product_id = int(product_id_str)
             sql.execute(f"SELECT name, price FROM products WHERE id = {product_id}")
             res = sql.fetchone()
-            total_price = weight * (res[1] / 10)
+            total_price = weight * (res[1] / 100)
             tuple_info = (res[0], res[1], weight, total_price)
             full_cart_info.append(tuple_info)
         db.commit()
