@@ -22,7 +22,7 @@ def main_handler(message):
         msg = bot.send_message(message.chat.id, "Можеш написати нам все, що забажаєш повідомленням. Ми обов'язково все прочитаємо!")
         bot.register_next_step_handler(msg, send_wish)
     elif message.text == contacts_btn:
-        bot.send_message(message.chat.id, "Інформація про ЇЖСОБІ\n Інформація про контактний email \n інформація кому можнa нарписати", reply_markup=back_board)
+        bot.send_message(message.chat.id, "Ти можеш з нами зв'язатися:\n в Telegram - @kokolenko\n або в Instagram - https://instagram.com/yizh_sobi", reply_markup=back_board)
     elif message.text == info_btn:
         bot.send_message(message.chat.id, "Яка саме інформація тебе цікавить?", reply_markup=info_board)
     elif message.text == back_btn:
@@ -47,7 +47,7 @@ def main_handler(message):
             bot.send_message(message.chat.id, f"Нажаль ваш кошик поки що порожній, щоб додати товар у кошик перейдіть в {order_btn}", reply_markup=main_board)
     elif message.text == done_btn:
         delete_cart(user_id=message.from_user.id)
-        bot.send_message(message.chat.id, "Дякую, що обрали ЇжСобі. Повертайтесь ще🖐.", reply_markup=main_board)
+        bot.send_message(message.chat.id, "Дякую, що обрали <b>ЇжСобі</b>. Повертайтесь ще🖐.", reply_markup=main_board, parse_mode='html')
 
     elif message.text == 'send full info':
         print(message)
@@ -82,7 +82,7 @@ def send_product_info_handler(message, id):
         bot.send_photo(message.chat.id, open(file_url, 'rb'), caption=caption, reply_markup=weight_choice_inline)
         bot.send_message(message.chat.id, "Обери потрібну вагу ( у грамах ) ⬆️⬆️⬆️", reply_markup=sub_product_board)
     except Exception as e:
-        print(e)
+        print(f"От халепа, вийшла якась помилка. Ми над цим попрацюємо і все виправимо")
 
 @bot.callback_query_handler(func=lambda call:True)
 def inline_handler(call):
@@ -194,17 +194,26 @@ def show_all_order_info(user_id):
     return total_order_info
 
 #fuinction that ask user wich way he gonna pay?
+  # print(name, price, description)
+  #   caption = f"М'яско {name}\n----------------\n Ціна - {price} (ціна за 100 грам)\n опис: {description}"
+  #   file_url = f"media/id{id}.jpg"
+  #   try:
+  #       bot.send_photo(message.chat.id, open(file_url, 'rb'), caption=caption, reply_markup=weight_choice_inline)
+  #       bot.send_message(message.chat.id, "Обери потрібну вагу ( у грамах ) ⬆️⬆️⬆️", reply_markup=sub_product_board)
+  #   except Exception as e:
+  #       print(f"От халепа, вийшла якась помилка. Ми над цим попрацюємо і все виправимо")
+
 def payment_handler(message):
+    global summary_price
     if message.text == prepay_btn:
-        bot.send_message(message.chat.id,f"""тут будуть реквізити карти, а може і qr. 
-        Сума до сплати <b>{cart_total_price} грн. </b>\n <b>ВАЖЛИВО:Вкажи номер замовлення в призначення платежу</b>\n 
-        Твій номер замовлення - <b>№{order_number}</b>""", parse_mode='html',reply_markup=done_board)
+        summary_price = cart_total_price
     elif message.text == not_prepay_btn:
-        bot.send_message(message.chat.id, f"""тут будуть реквізити карти, а може і qr. 
-                Необхідно внести передплату у розмірі 60 грн\n <b>ВАЖЛИВО:Вкажи номер замовлення в призначення платежу</b>\n
-                Твій номер замовлення - <b>№{order_number}</b>""", parse_mode='html', reply_markup=done_board)
+        summary_price = 60
     elif message.text == back_btn:
         main_handler(message=message)
+    msg_text = f"Ти можеш сплати за номером картки\n </b>5168 7520 0106 2002</b> (на ім'я Буряковський Ігор)\n або перейшовши по QR-коду в зображені\n Сума до сплати - <b>{summary_price}грн</b>\n ❗️❗️❗️ВАЖЛИВО: <b>Вкажи номер замовлення в призначенні платежу</b>\n Твій номер замовлення - <b>{order_number}</b>"
+    qr_url = "media/qr.png"
+    bot.send_photo(message.chat.id, open(qr_url, 'rb'), caption=msg_text, parse_mode='html', reply_markup=done_board)
 
 #function that accept text as message and write it in data base
 def send_wish(message):
