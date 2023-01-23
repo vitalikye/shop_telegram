@@ -76,7 +76,7 @@ def send_product_info_handler(message, id):
     price = product_info[1]
     description = product_info[2]
     print(name, price, description)
-    caption = f"М'яско {name}\n----------------\n Ціна - {price} (ціна за 100 грам)\n опис: {description}"
+    caption = f"М'яско {name}\n----------------\n Ціна - {price}грн. (ціна за 100 грам)\n опис: {description}"
     file_url = f"media/id{id}.jpg"
     try:
         bot.send_photo(message.chat.id, open(file_url, 'rb'), caption=caption, reply_markup=weight_choice_inline)
@@ -171,7 +171,7 @@ def register_phone(message):
 def register_post_info(message):
     global post_info
     post_info = message.text
-    bot.send_message(message.chat.id, f"Відмінно! Подивись,чи вірно я записав всю інформацію:\n ПІБ - <b>{name}</b> \nНомер телефону - <b>{phone_number}</b> \nІнформація про відправку - <b>{post_info}</b> \n Якщо все вірно натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити і надіслати нам вірну інформацію\n ⬇️⬇️⬇️⬇️⬇️⬇️⬇️",
+    bot.send_message(message.chat.id, f"Відмінно! Подивись, чи вірно я записав всю інформацію:\n ПІБ - <b>{name}</b> \nНомер телефону - <b>{phone_number}</b> \nІнформація про відправку - <b>{post_info}</b> \n Якщо все вірно натисни <b>'Так'</b>, щоб продовжити, або <b>'Ні'</b>, щоб виправити і надіслати нам вірну інформацію\n ⬇️⬇️⬇️⬇️⬇️⬇️⬇️",
                      reply_markup=ask_post_info_board, parse_mode='html')
 
 #function that show user whole info about his order
@@ -211,10 +211,14 @@ def payment_handler(message):
         summary_price = 60
     elif message.text == back_btn:
         main_handler(message=message)
-    msg_text = f"Ти можеш сплати за номером картки\n </b>5168 7520 0106 2002</b> (на ім'я Буряковський Ігор)\n або перейшовши по QR-коду в зображені\n Сума до сплати - <b>{summary_price}грн</b>\n ❗️❗️❗️ВАЖЛИВО: <b>Вкажи номер замовлення в призначенні платежу</b>\n Твій номер замовлення - <b>{order_number}</b>"
+    msg_text = f"Ти можеш сплати за номером картки\n <b>5168 7520 0106 2002</b> (на ім'я Буряковський Ігор)\n або перейшовши по QR-коду в зображені\n Сума до сплати - <b>{summary_price}грн</b>\n ❗️❗️❗️ВАЖЛИВО: <b>Вкажи номер замовлення в призначенні платежу</b>\n Твій номер замовлення - <b>{order_number}</b>"
     qr_url = "media/qr.png"
-    bot.send_photo(message.chat.id, open(qr_url, 'rb'), caption=msg_text, parse_mode='html', reply_markup=done_board)
-
+    try:
+        bot.send_photo(message.chat.id, open(qr_url, 'rb'), caption=msg_text, parse_mode='html', reply_markup=done_board)
+    except Exception as e:
+        print(f"FUCK! some problems {e}")
+        msg = bot.send_message(message.chat.id, "Ой, щось пішло не так. Ми обов'язково подивимось і виправимов всі проблеми в боті", reply_markup=main_board)
+        bot.register_next_step_handler(msg, main_handler)
 #function that accept text as message and write it in data base
 def send_wish(message):
     wish = str(message.text)

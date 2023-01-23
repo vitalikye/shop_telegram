@@ -20,14 +20,14 @@ info_meat = types.KeyboardButton(info_meat_btn)
 info_maker= types.KeyboardButton(info_maker_btn)
 info_deal = types.KeyboardButton(info_deal_btn)
 info_board = types.ReplyKeyboardMarkup()
-info_board.add(info_meat, info_maker, info_deal, contacts_main, back_main_button)
+info_board.add(info_meat, info_maker, info_deal, contacts_main, back_main_button, row_width=1)
 
 #deal board
 deal_board = types.ReplyKeyboardMarkup()
-deal_board.add(deal_btn, cart_remove_btn, back_btn)
+deal_board.add(deal_btn, cart_remove_btn, back_btn, row_width=1)
 
 cart_remove_board = types.ReplyKeyboardMarkup()
-cart_remove_board.add(standart_tasty_btn, chernosliv_tasty_btn, ginger_tasty_btn, remove_all_btn, back_btn)
+cart_remove_board.add(standart_tasty_btn, chernosliv_tasty_btn, ginger_tasty_btn, remove_all_btn, back_btn, row_width=2)
 
 #subinfo bord
 subinfo_board = types.ReplyKeyboardMarkup()
@@ -39,11 +39,11 @@ chernosliv_tasty = types.KeyboardButton(chernosliv_tasty_btn)
 ginger_tasty = types.KeyboardButton(ginger_tasty_btn)
 cart_main = types.KeyboardButton(cart_btn)
 products_board = types.ReplyKeyboardMarkup()
-products_board.add(standart_tasty, chernosliv_tasty, ginger_tasty, back_main_button, cart_main)
+products_board.add(standart_tasty, chernosliv_tasty, ginger_tasty, back_main_button, cart_main, row_width=1)
 
 #subproduct board
 sub_product_board = types.ReplyKeyboardMarkup()
-sub_product_board.add(order_btn, deal_btn, cart_btn, back_btn)
+sub_product_board.add(order_btn, deal_btn, cart_btn, back_btn, row_width=2)
 
 #inline weight buttons
 weight_choice_inline = types.InlineKeyboardMarkup()
@@ -55,17 +55,6 @@ weight_1000 = types.InlineKeyboardButton(text="+1000", callback_data=btn1000)
 weight_own = types.InlineKeyboardButton(text="Cвій варіант", callback_data=btnown)
 weight_choice_inline.add(weight_50, weight_100, weight_200, weight_500, weight_1000, weight_own)
 
-# #Inline name board
-# ask_name_board = types.InlineKeyboardMarkup()
-# yes_name_button = types.InlineKeyboardButton(text="Так", callback_data=name_yes_callback)
-# no_name_button = types.InlineKeyboardButton(text="Ні", callback_data=name_no_callback)
-# ask_name_board.add(yes_name_button, no_name_button)
-#
-# #Inline phone board
-# ask_phone_board = types.InlineKeyboardMarkup()
-# yes_phone_button = types.InlineKeyboardButton(text="Так", callback_data=phone_yes_callback)
-# no_phone_button = types.InlineKeyboardButton(text="Ні", callback_data=phone_no_callback)
-# ask_phone_board.add(yes_phone_button, no_phone_button)
 
 #Inline post info board
 ask_post_info_board = types.InlineKeyboardMarkup()
@@ -77,7 +66,7 @@ ask_post_info_board.add(yes_post_info_button, no_post_info_button)
 prepay_button = types.KeyboardButton(prepay_btn)
 not_prepay_button = types.KeyboardButton(not_prepay_btn)
 payment_board = types.ReplyKeyboardMarkup()
-payment_board.add(prepay_button, not_prepay_button, back_main_button)
+payment_board.add(prepay_button, not_prepay_button, back_main_button, row_width=2)
 
 #done_board
 done_board = types.ReplyKeyboardMarkup()
